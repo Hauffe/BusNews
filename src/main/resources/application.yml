@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: news-service
+  jpa:
+    hibernate:
+      ddl-auto: update
+server:
+   port: 8887

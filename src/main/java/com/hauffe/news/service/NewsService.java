@@ -2,6 +2,7 @@ package com.hauffe.news.service;
 
 import com.hauffe.news.dao.NewsRepository;
 import com.hauffe.news.model.BusNews;
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -23,8 +24,4 @@ public class NewsService {
         return repository.save(new BusNews());
     }
 
-    public BusNews readNewsFromUrbsPage() throws Exception{
-
-        return null;
-    }
 }

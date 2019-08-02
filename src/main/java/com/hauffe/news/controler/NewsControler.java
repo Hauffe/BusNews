@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/")
-public class NewsService {
+public class NewsControler {
 
     @RequestMapping("")
     public String hello() {

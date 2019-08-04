@@ -1,5 +1,6 @@
 package com.hauffe.news.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,12 +16,18 @@ public class BusNews {
 
     @Id
     @GeneratedValue
-    @Column(name = "CART_ID")
+    @JsonIgnore
+    @Column(name = "ID")
     @Getter @Setter private Long id;
+    @Column(name = "TITLE")
     @Getter @Setter private String title;
+    @Column(name = "DATE")
     @Getter @Setter private Date date;
+    @Column(name = "CONTENT", columnDefinition="TEXT")
     @Getter @Setter private String content;
+    @Column(name = "LINK")
     @Getter @Setter private String link;
+    @Column(name = "IMAGE_URL")
     @Getter @Setter private String imageURL;
 
 }

@@ -62,7 +62,7 @@ public class NewsService {
     }
 
     public void updatingNewsDB(){
-        boolean newNewsFoud = false;
+        boolean newNewsFound = false;
 
         try {
             List<BusNews> newsFromDB = this.deliverNews();
@@ -74,13 +74,13 @@ public class NewsService {
                 for(BusNews busNews : urbsNews){
                     for(BusNews dbNews : newsFromDB){
                         if(!Objects.equals(busNews.getTitle(), dbNews.getTitle())){
-                            newNewsFoud = true;
+                            newNewsFound = true;
                         }else{
-                            newNewsFoud = false;
+                            newNewsFound = false;
                             break;
                         }
                     }
-                    if(newNewsFoud){
+                    if(newNewsFound){
                         repository.save(busNews);
                         logger.info(Constants.NEW_NEWS_FOUND.getValue() + busNews.toString());
                     }

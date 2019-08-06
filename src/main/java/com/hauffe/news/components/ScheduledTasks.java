@@ -25,10 +25,10 @@ public class ScheduledTasks {
     @Scheduled(fixedRate = 2000)
     public void scheduleTaskWithFixedRate() {
         try{
-            TimeUnit.HOURS.sleep(2);
             logger.info(Constants.UPDATE_TIME.getValue());
             service.updatingNewsDB();
             logger.info(Constants.EXECUTION_TIME.getValue(), dateTimeFormatter.format(LocalDateTime.now()));
+            TimeUnit.HOURS.sleep(2);
         }catch (Exception e){
             logger.error(e.getMessage());
         }

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.xml.ws.Service;
 import java.util.List;
 
 @RestController
@@ -39,7 +40,19 @@ public class NewsController {
     @RequestMapping("bus_news")
     public ResponseEntity<List<BusNews>> retrieveNews(){
         try{
-            return ResponseEntity.ok(service.deliverNews());
+            return ResponseEntity.ok(service.getNews());
+        }catch (Exception e){
+            logger.error(e.getMessage());
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @RequestMapping("update_now")
+    public ResponseEntity<String> updateDB(){
+        try{
+            service.updatingNewsDB();
+            logger.info("Updated via URL");
+            return ResponseEntity.ok("Updated!");
         }catch (Exception e){
             logger.error(e.getMessage());
             return ResponseEntity.badRequest().body(null);

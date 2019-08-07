@@ -31,7 +31,7 @@ public class NewsService {
         restTemplate = new RestTemplate();
     }
 
-    public List<BusNews> deliverNews(){
+    public List<BusNews> getNews(){
         Iterable<BusNews> iterableNews = repository.findAll();
         List<BusNews> newsFromDB = new ArrayList<>();
         iterableNews.forEach(newsFromDB::add);
@@ -65,9 +65,10 @@ public class NewsService {
         boolean newNewsFound = false;
 
         try {
-            List<BusNews> newsFromDB = this.deliverNews();
-            Iterable<BusNews> urbsNews = this.readNews();
+            List<BusNews> newsFromDB = this.getNews();
+            List<BusNews> urbsNews = this.readNews();
             if(newsFromDB.size() == 0){
+                Collections.reverse(urbsNews);
                 repository.saveAll(urbsNews);
                 logger.info(Constants.NEW_NEWS_FOUND.getValue() + urbsNews.toString());
             }else{

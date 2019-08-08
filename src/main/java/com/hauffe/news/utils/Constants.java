@@ -5,13 +5,14 @@ import lombok.Getter;
 
 @AllArgsConstructor
 public enum Constants {
+    URBS_HOME_PAGE("https://www.urbs.curitiba.pr.gov.br/"),
     URBS_URL("https://www.urbs.curitiba.pr.gov.br/transporte/boletim-de-transportes"),
     NEWS_QUERY("#main > div.leftCol > div.bg-white"),
     TITLE_QUERY("h2"),
     DATE_QUERY("p.resize > span"),
-    CONTENT_QUERY("p"),
-    LINK_QUERY("a"),
-    IMAGE_URL_QUERY("a > img"),
+    CONTENT_QUERY("p:nth-child(3)"),
+    LINK_QUERY("p:nth-child(4) > a"),
+    IMAGE_URL_QUERY("p:nth-child(5) a > img"),
 
     DATE_FORMAT("dd/MM/yyyy"),
 

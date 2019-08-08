@@ -35,6 +35,7 @@ public class NewsService {
         Iterable<BusNews> iterableNews = repository.findAll();
         List<BusNews> newsFromDB = new ArrayList<>();
         iterableNews.forEach(newsFromDB::add);
+        Collections.reverse(newsFromDB);
         return newsFromDB;
     }
 
@@ -54,8 +55,12 @@ public class NewsService {
                     .parse(headline.select(Constants.DATE_QUERY.getValue()).text()));
 
             busNews.setContent(headline.select(Constants.CONTENT_QUERY.getValue()).text());
-            busNews.setLink(headline.select(Constants.LINK_QUERY.getValue()).attr("href"));
-            busNews.setImageURL(headline.select(Constants.IMAGE_URL_QUERY.getValue()).text());
+            String link = headline.select(Constants.LINK_QUERY.getValue()).attr("href");
+            if(!link.isEmpty()){
+                busNews.setLink(Constants.URBS_HOME_PAGE.getValue() + link.substring(15));
+            }else busNews.setLink(Constants.URBS_HOME_PAGE.getValue());
+
+            busNews.setImageURL(headline.select(Constants.IMAGE_URL_QUERY.getValue()).attr("src"));
             newNews.add(busNews);
         }
         return newNews;

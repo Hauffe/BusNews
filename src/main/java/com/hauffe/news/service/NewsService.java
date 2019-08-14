@@ -10,25 +10,21 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
-
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
 public class NewsService {
 
+    private final NewsRepository repository;
     private static final Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
-    private NewsRepository repository;
-    private RestTemplate restTemplate;
     private Document doc;
 
-
+    @Autowired
     public NewsService(NewsRepository repository) {
         this.repository = repository;
-        restTemplate = new RestTemplate();
     }
 
     public List<BusNews> getNews(){
@@ -91,9 +87,7 @@ public class NewsService {
                         logger.info(Constants.NEW_NEWS_FOUND.getValue() + busNews.toString());
                     }
                 }
-
             }
-
         }catch (Exception e){
             logger.error(e.getMessage());
         }

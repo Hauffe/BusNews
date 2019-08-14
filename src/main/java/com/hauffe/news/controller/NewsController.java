@@ -5,6 +5,7 @@ import com.hauffe.news.model.BusNews;
 import com.hauffe.news.service.NewsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,9 +15,10 @@ import java.util.List;
 @RequestMapping(value = "/")
 public class NewsController {
 
+    private final NewsService service;
     private static final Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
-    private NewsService service;
 
+    @Autowired
     public NewsController(NewsService service) {
         this.service = service;
     }

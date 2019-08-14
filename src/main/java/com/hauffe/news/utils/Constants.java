@@ -11,8 +11,8 @@ public enum Constants {
     TITLE_QUERY("h2"),
     DATE_QUERY("p.resize > span"),
     CONTENT_QUERY("p:nth-child(3)"),
-    LINK_QUERY("p:nth-child(4) > a"),
-    IMAGE_URL_QUERY("p:nth-child(5) a > img"),
+    LINK_QUERY("a"),
+    IMAGE_URL_QUERY("p > a > img"),
 
     DATE_FORMAT("dd/MM/yyyy"),
 

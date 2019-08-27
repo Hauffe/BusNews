@@ -53,7 +53,11 @@ public class NewsService {
             busNews.setContent(headline.select(Constants.CONTENT_QUERY.getValue()).text());
             String link = headline.select(Constants.LINK_QUERY.getValue()).attr("href");
             if(!link.isEmpty()){
-                busNews.setLink(Constants.URBS_HOME_PAGE.getValue() + link.substring(15));
+                if(link.substring(0,3).equals("../")){
+                    busNews.setLink(Constants.URBS_HOME_PAGE.getValue() + link.substring(15));
+                }else{
+                    busNews.setLink(Constants.URBS_HOME_PAGE.getValue());
+                }
             }else busNews.setLink(Constants.URBS_HOME_PAGE.getValue());
 
             busNews.setImageURL(headline.select(Constants.IMAGE_URL_QUERY.getValue()).attr("src"));

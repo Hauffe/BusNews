@@ -45,22 +45,28 @@ public class NewsService {
 
         for (Element headline : newsHeadlines) {
             busNews = new BusNews();
+
             busNews.setTitle(headline.select(Constants.TITLE_QUERY.getValue()).text());
 
             busNews.setDate(new SimpleDateFormat(Constants.DATE_FORMAT.getValue())
                     .parse(headline.select(Constants.DATE_QUERY.getValue()).text()));
 
             busNews.setContent(headline.select(Constants.CONTENT_QUERY.getValue()).text());
+
             String link = headline.select(Constants.LINK_QUERY.getValue()).attr("href");
             if(!link.isEmpty()){
-                if(link.substring(0,3).equals("../")){
+                if("../".equals(link.substring(0,3))){
                     busNews.setLink(Constants.URBS_HOME_PAGE.getValue() + link.substring(15));
                 }else{
                     busNews.setLink(Constants.URBS_HOME_PAGE.getValue());
                 }
             }else busNews.setLink(Constants.URBS_HOME_PAGE.getValue());
 
-            busNews.setImageURL(headline.select(Constants.IMAGE_URL_QUERY.getValue()).attr("src"));
+            String imageURL = headline.select(Constants.IMAGE_URL_QUERY.getValue()).attr("src");
+            if(!imageURL.isEmpty() && "pdf".equals(imageURL.substring(imageURL.length() - 3).toLowerCase())){
+                busNews.setLink(imageURL);
+            }else busNews.setImageURL(imageURL);
+
             newNews.add(busNews);
         }
         return newNews;

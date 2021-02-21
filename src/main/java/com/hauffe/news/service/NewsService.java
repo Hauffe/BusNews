@@ -27,7 +27,7 @@ public class NewsService {
         this.repository = repository;
     }
 
-    public List<BusNews> getNews(){
+    public List<BusNews> getNewsFromDB(){
         Iterable<BusNews> iterableNews = repository.findAll();
         List<BusNews> newsFromDB = new ArrayList<>();
         iterableNews.forEach(newsFromDB::add);
@@ -35,7 +35,7 @@ public class NewsService {
         return newsFromDB;
     }
 
-    public List<BusNews> readNews() throws Exception{
+    public List<BusNews> readNewsFromWeb() throws Exception{
 
         List<BusNews> newNews = new ArrayList<>();
         BusNews busNews;
@@ -63,7 +63,7 @@ public class NewsService {
             }else busNews.setLink(Constants.URBS_HOME_PAGE.getValue());
 
             String imageURL = headline.select(Constants.IMAGE_URL_QUERY.getValue()).attr("src");
-            if(!imageURL.isEmpty() && "pdf".equals(imageURL.substring(imageURL.length() - 3).toLowerCase())){
+            if(!imageURL.isEmpty() && "pdf".equalsIgnoreCase(imageURL.substring(imageURL.length() - 3))){
                 busNews.setLink(imageURL);
             }else busNews.setImageURL(imageURL);
 
@@ -76,8 +76,8 @@ public class NewsService {
         boolean newNewsFound = false;
 
         try {
-            List<BusNews> newsFromDB = this.getNews();
-            List<BusNews> urbsNews = this.readNews();
+            List<BusNews> newsFromDB = this.getNewsFromDB();
+            List<BusNews> urbsNews = this.readNewsFromWeb();
             if(newsFromDB.size() == 0){
                 Collections.reverse(urbsNews);
                 repository.saveAll(urbsNews);

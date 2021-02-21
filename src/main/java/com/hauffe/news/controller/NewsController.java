@@ -30,7 +30,7 @@ public class NewsController {
     @RequestMapping("test")
     public String test() {
         try {
-            return service.readNews().toString();
+            return service.readNewsFromWeb().toString();
         }catch (Exception e){
             return e.getMessage();
         }
@@ -39,7 +39,7 @@ public class NewsController {
     @RequestMapping("bus_news")
     public ResponseEntity<List<BusNews>> retrieveNews(){
         try{
-            return ResponseEntity.ok(service.getNews());
+            return ResponseEntity.ok(service.getNewsFromDB());
         }catch (Exception e){
             logger.error(e.getMessage());
             return ResponseEntity.badRequest().body(null);

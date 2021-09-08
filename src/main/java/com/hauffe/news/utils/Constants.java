@@ -7,7 +7,7 @@ import lombok.Getter;
 public enum Constants {
     URBS_HOME_PAGE("https://www.urbs.curitiba.pr.gov.br/"),
     URBS_URL("https://www.urbs.curitiba.pr.gov.br/transporte/boletim-de-transportes"),
-    NEWS_QUERY("#main > div.leftCol > div.bg-white"),
+    NEWS_QUERY("#main > div.col-12 > div.bg-white"),
     TITLE_QUERY("h2"),
     DATE_QUERY("p.resize > span"),
     CONTENT_QUERY("p:nth-child(3)"),

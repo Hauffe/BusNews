@@ -37,9 +37,7 @@ public class NewsService {
     }
 
     public List<BusNews> readNewsFromWeb() throws Exception{
-
         List<BusNews> newNews = new ArrayList<>();
-
         doc = Jsoup.connect(Constants.URBS_URL.getValue()).get();
         Elements newsHeadlines = doc.select(Constants.NEWS_QUERY.getValue());
 

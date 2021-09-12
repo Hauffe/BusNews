@@ -29,3 +29,4 @@ build/
 
 ### VS Code ###
 .vscode/
+/src/main/resources/google/bus-news-notifier-firebase-adminsdk-ubeik-c3aa3fa62c.json

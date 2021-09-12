@@ -14,7 +14,6 @@ import java.util.Objects;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
 public class BusNews {
 
     @Id
@@ -32,4 +31,18 @@ public class BusNews {
     private String link;
     @Column(name = "IMAGE_URL")
     private String imageURL;
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BusNews busNews = (BusNews) o;
+        return Objects.equals(title, busNews.title) && Objects.equals(date, busNews.date) && Objects.equals(content, busNews.content) && Objects.equals(link, busNews.link) && Objects.equals(imageURL, busNews.imageURL);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, date, content, link, imageURL);
+    }
 }

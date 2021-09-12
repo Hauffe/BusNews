@@ -6,12 +6,13 @@ import com.hauffe.news.model.BusNews;
 import com.hauffe.news.utils.Constants;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -38,21 +39,22 @@ public class NewsService {
     public List<BusNews> readNewsFromWeb() throws Exception{
 
         List<BusNews> newNews = new ArrayList<>();
-        BusNews busNews;
 
         doc = Jsoup.connect(Constants.URBS_URL.getValue()).get();
         Elements newsHeadlines = doc.select(Constants.NEWS_QUERY.getValue());
 
-        for (Element headline : newsHeadlines) {
-            busNews = new BusNews();
-
+        newsHeadlines.forEach(headline -> {
+            BusNews busNews = new BusNews();
             busNews.setTitle(headline.select(Constants.TITLE_QUERY.getValue()).text());
 
-            busNews.setDate(new SimpleDateFormat(Constants.DATE_FORMAT.getValue())
-                    .parse(headline.select(Constants.DATE_QUERY.getValue()).text()));
+            try {
+                busNews.setDate(new SimpleDateFormat(Constants.DATE_FORMAT.getValue())
+                        .parse(headline.select(Constants.DATE_QUERY.getValue()).text()));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
             busNews.setContent(headline.select(Constants.CONTENT_QUERY.getValue()).text());
-
             String link = headline.select(Constants.LINK_QUERY.getValue()).attr("href");
             if(!link.isEmpty()){
                 if("../".equals(link.substring(0,3))){
@@ -68,13 +70,11 @@ public class NewsService {
             }else busNews.setImageURL(imageURL);
 
             newNews.add(busNews);
-        }
+        });
         return newNews;
     }
 
     public void updatingNewsDB(){
-        boolean newNewsFound = false;
-
         try {
             List<BusNews> newsFromDB = this.getNewsFromDB();
             List<BusNews> urbsNews = this.readNewsFromWeb();
@@ -83,20 +83,12 @@ public class NewsService {
                 repository.saveAll(urbsNews);
                 logger.info(Constants.NEW_NEWS_FOUND.getValue() + urbsNews.toString());
             }else{
-                for(BusNews busNews : urbsNews){
-                    for(BusNews dbNews : newsFromDB){
-                        if(!Objects.equals(busNews.getTitle(), dbNews.getTitle())){
-                            newNewsFound = true;
-                        }else{
-                            newNewsFound = false;
-                            break;
-                        }
-                    }
-                    if(newNewsFound){
+                urbsNews.forEach(busNews -> {
+                    if(newsFromDB.stream().noneMatch(dbNews -> dbNews.getTitle().equals(busNews.getTitle()))){
                         repository.save(busNews);
                         logger.info(Constants.NEW_NEWS_FOUND.getValue() + busNews.toString());
                     }
-                }
+                });
             }
         }catch (Exception e){
             logger.error(e.getMessage());

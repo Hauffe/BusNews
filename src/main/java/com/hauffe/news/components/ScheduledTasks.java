@@ -30,7 +30,6 @@ public class ScheduledTasks {
             logger.info(Constants.UPDATE_TIME.getValue());
             service.updatingNewsDB();
             logger.info(Constants.EXECUTION_TIME.getValue(), dateTimeFormatter.format(LocalDateTime.now()));
-            TimeUnit.MINUTES.sleep(15);
         }catch (Exception e){
             logger.error(e.getMessage());
         }

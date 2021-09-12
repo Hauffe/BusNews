@@ -51,6 +51,7 @@ public class NewsController {
         try{
             service.updatingNewsDB();
             logger.info("Updated via URL");
+            service.sendSamplePushNotification();
             return ResponseEntity.ok("Updated!");
         }catch (Exception e){
             logger.error(e.getMessage());

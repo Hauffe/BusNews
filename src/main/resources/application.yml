@@ -8,3 +8,5 @@ server:
    port: 8887
 app:
   firebase-configuration-file: google/bus-news-notifier-firebase-adminsdk-ubeik-c3aa3fa62c.json
+  notifications:
+    defaults: '{topic: "NewsUpdate", title: "Common topic - Hello", message: "Bus news update!", token: "ss22t03wz208eg:APA2idkkow223FE_0v5yHxqCLTyxAQafj6nWaqi4QzwZTW004q1PUux63UsFN", payloadMessageId: "123", payloadData: "Hello. This is payload content."}'

@@ -3,6 +3,7 @@ package com.hauffe.news.service;
 import com.hauffe.news.components.ScheduledTasks;
 import com.hauffe.news.dao.NewsRepository;
 import com.hauffe.news.model.BusNews;
+import com.hauffe.news.model.PushNotificationRequest;
 import com.hauffe.news.utils.Constants;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -10,21 +11,27 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 @Service
 public class NewsService {
 
+    @Value("#{${app.notifications.defaults}}")
+    private Map<String, String> defaults;
+
+    private FCMService fcmService;
     private final NewsRepository repository;
     private static final Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
-    private Document doc;
 
     @Autowired
-    public NewsService(NewsRepository repository) {
+    public NewsService(NewsRepository repository, FCMService fcmService) {
+        this.fcmService = fcmService;
         this.repository = repository;
     }
 
@@ -38,7 +45,7 @@ public class NewsService {
 
     public List<BusNews> readNewsFromWeb() throws Exception{
         List<BusNews> newNews = new ArrayList<>();
-        doc = Jsoup.connect(Constants.URBS_URL.getValue()).get();
+        Document doc = Jsoup.connect(Constants.URBS_URL.getValue()).get();
         Elements newsHeadlines = doc.select(Constants.NEWS_QUERY.getValue());
 
         newsHeadlines.forEach(headline -> {
@@ -80,16 +87,34 @@ public class NewsService {
                 Collections.reverse(urbsNews);
                 repository.saveAll(urbsNews);
                 logger.info(Constants.NEW_NEWS_FOUND.getValue() + urbsNews.toString());
+                sendSamplePushNotification();
             }else{
                 urbsNews.forEach(busNews -> {
                     if(newsFromDB.stream().noneMatch(dbNews -> dbNews.getTitle().equals(busNews.getTitle()))){
                         repository.save(busNews);
                         logger.info(Constants.NEW_NEWS_FOUND.getValue() + busNews.toString());
+                        sendSamplePushNotification();
                     }
                 });
             }
         }catch (Exception e){
             logger.error(e.getMessage());
         }
+    }
+
+    public void sendSamplePushNotification() {
+        try {
+            fcmService.sendMessageWithoutData(getSamplePushNotificationRequest());
+        } catch (InterruptedException | ExecutionException e) {
+            logger.error(e.getMessage());
+        }
+    }
+
+
+    private PushNotificationRequest getSamplePushNotificationRequest() {
+        PushNotificationRequest request = new PushNotificationRequest(defaults.get("title"),
+                defaults.get("message"),
+                defaults.get("topic"));
+        return request;
     }
 }

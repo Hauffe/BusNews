@@ -1,5 +1,6 @@
 package com.hauffe.news.components;
 
+import com.hauffe.news.model.PushNotificationRequest;
 import com.hauffe.news.service.NewsService;
 import com.hauffe.news.utils.Constants;
 import org.slf4j.Logger;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.concurrent.TimeUnit;
 
 @Component
 public class ScheduledTasks {

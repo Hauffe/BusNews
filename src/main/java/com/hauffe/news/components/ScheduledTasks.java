@@ -24,7 +24,7 @@ public class ScheduledTasks {
         this.service = service;
     }
 
-    @Scheduled(fixedRate = 3600000)
+    @Scheduled(fixedRate = 900000)
     public void scheduleTaskWithFixedRate() {
         try{
             logger.info(Constants.UPDATE_TIME.getValue());

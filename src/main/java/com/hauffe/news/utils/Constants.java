@@ -10,7 +10,7 @@ public enum Constants {
     NEWS_QUERY("#main > div.col-12 > div.bg-white"),
     TITLE_QUERY("h2"),
     DATE_QUERY("p.resize > span"),
-    CONTENT_QUERY("p:nth-child(3)"),
+    CONTENT_QUERY("p"),
     LINK_QUERY("a"),
     IMAGE_URL_QUERY("p > a > img"),
 
@@ -21,6 +21,6 @@ public enum Constants {
     UPDATE_TIME("Time to update"),
     NEW_NEWS_FOUND("NEW NEWS! ");
 
-    @Getter private String value;
+    @Getter private final String value;
 
 }

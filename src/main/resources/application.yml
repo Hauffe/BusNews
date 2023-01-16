@@ -5,7 +5,7 @@ spring:
     hibernate:
       ddl-auto: update
 server:
-   port: 8887
+  port: 8887
 app:
   firebase-configuration-file: google/bus-news-notifier-firebase-adminsdk-ubeik-c3aa3fa62c.json
   notifications:

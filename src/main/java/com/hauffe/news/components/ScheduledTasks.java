@@ -1,6 +1,5 @@
 package com.hauffe.news.components;
 
-import com.hauffe.news.model.PushNotificationRequest;
 import com.hauffe.news.service.NewsService;
 import com.hauffe.news.utils.Constants;
 import org.slf4j.Logger;
@@ -34,5 +33,4 @@ public class ScheduledTasks {
             logger.error(e.getMessage());
         }
     }
-
 }
